@@ -56,15 +56,20 @@
             display-name = "Mod-Tap(TP)";
         };
 
-        // lt default: tap preferred. Rename it.
+        // lt: snappy layer-tap (Space / Tab / Right on the Agar Mini).
+        // Was tap-preferred 200 ms: the layer only came on after a 200 ms hold = the lag.
+        // hold-preferred: the layer is active the moment another key is pressed while held.
+        // require-prior-idle-ms: within 150 ms of typing another key it is a plain tap at once,
+        // so Space never turns into a layer while typing fast.
         lt: layer_tap {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
-            flavor = "tap-preferred";
+            flavor = "hold-preferred";
             tapping-term-ms = <200>;
-            quick-tap-ms = <180>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
             bindings = <&mo>, <&kp>;
-            display-name = "Layer-Tap(TP)";
+            display-name = "Layer-Tap(Fast)";
         };
 
         // lt_hp:  hold preferred
@@ -205,6 +210,7 @@
         compatible = "zmk,combos";
         combo_clear_mods {
             timeout-ms = <20>;
+            require-prior-idle-ms = <150>; // do not hold Q back while typing
             key-positions = <1 11>; // Q  and \|
             bindings = <&FW_VER>;
         };
